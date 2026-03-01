@@ -1,0 +1,141 @@
+---
+import { getImage } from "astro:assets";
+import hero from "../assets/images/hero.jpg";
+
+const avif = await getImage({
+  src: hero,
+  format: "avif",
+  widths: [640, 1024, 1600],
+});
+
+const webp = await getImage({
+  src: hero,
+  format: "webp",
+  widths: [640, 1024, 1600],
+});
+
+const pageTitle = "Stretch Event | Premium Event Experiences";
+const description =
+  "Stretch Event delivers high-end event experiences with precision, creativity and impact.";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <!-- Basic performance -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+
+  <body>
+    <header>
+      <h1>Stretch Event</h1>
+    </header>
+
+    <main>
+      <section class="hero">
+        <picture>
+          <source
+            type="image/avif"
+            srcset={avif.srcSet.attribute}
+            sizes="(max-width: 768px) 100vw, 1600px"
+          />
+          <source
+            type="image/webp"
+            srcset={webp.srcSet.attribute}
+            sizes="(max-width: 768px) 100vw, 1600px"
+          />
+          <img
+            src={webp.src}
+            alt="Elegant Stretch Event production"
+            width={webp.attributes.width}
+            height={webp.attributes.height}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </picture>
+        <div class="hero-text">
+          <h2>Premium Event Experiences</h2>
+          <p>Elegant. Immersive. Unforgettable.</p>
+        </div>
+      </section>
+
+      <section>
+        <h3>What We Do</h3>
+        <p>
+          We design and deliver visually stunning events tailored to your
+          audience, venue and ambition.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; {new Date().getFullYear()} Stretch Event</p>
+    </footer>
+  </body>
+</html>
+
+<style>
+  body {
+    font-family:
+      system-ui,
+      -apple-system,
+      sans-serif;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  header {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .hero {
+    position: relative;
+  }
+
+  .hero picture,
+  .hero img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .hero-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.35);
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .hero-text h2 {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    margin: 0;
+  }
+
+  section {
+    padding: 2rem 1rem;
+    max-width: 800px;
+    margin: auto;
+  }
+
+  footer {
+    padding: 2rem 1rem;
+    text-align: center;
+    border-top: 1px solid #eee;
+  }
+</style>
